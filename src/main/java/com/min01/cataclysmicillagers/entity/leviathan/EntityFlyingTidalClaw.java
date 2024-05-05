@@ -291,8 +291,12 @@ public class EntityFlyingTidalClaw extends AbstractOwnableMonster<EntityAbyssalM
 		public boolean canUse() 
 		{
 			Entity entity = this.mob.getTarget();
-			boolean flag = this.mob.type == ClawType.HOOK ? this.mob.distanceTo(entity) >= 8 : true;
-			return entity != null && entity.isAlive() && this.mob.getTick() <= 0 && flag;
+			if(entity != null)
+			{
+				boolean flag = this.mob.type == ClawType.HOOK ? this.mob.distanceTo(entity) >= 8 : true;
+				return entity.isAlive() && this.mob.getTick() <= 0 && flag;
+			}
+			return false;
 		}
 		
 		@Override
