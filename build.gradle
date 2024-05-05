@@ -147,9 +147,9 @@ repositories {
     // ForgeGradle automatically adds the Forge maven and Maven Central for you
 
     // If you have mod jar dependencies in ./libs, you can declare them as a repository like so:
-    flatDir {
-        dir 'libs'
-    }
+    // flatDir {
+    //    dir 'libs'
+    //}
 }
 
 dependencies {
@@ -160,8 +160,7 @@ dependencies {
     // then special handling is done to allow a setup of a vanilla dependency without the use of an external repository.
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    //implementation fg.deobf("curse.maven:lendercataclysm-551586:5315039")
-    implementation fg.deobf("com.github.L_ender:cataclysm-1.19.2:1.99.2")
+	implementation fg.deobf("curse.maven:lendercataclysm-551586:5316908")
     implementation fg.deobf("curse.maven:lionfish-api-1001614:5314835")
     implementation fg.deobf("curse.maven:curios-309927:5302436")
     implementation fg.deobf("curse.maven:archaeology-api-950822:5141973")
