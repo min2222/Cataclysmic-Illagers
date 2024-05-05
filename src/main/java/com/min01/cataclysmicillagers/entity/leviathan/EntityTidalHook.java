@@ -78,9 +78,9 @@ public class EntityTidalHook extends AbstractArrow
 				
 				if (!this.level.isClientSide) 
 				{
-					if (owner.isDeadOrDying() || owner.distanceTo((Entity) this) > this.maxRange)
+					if (owner.isDeadOrDying() || owner.distanceTo(this) > this.maxRange || this.distanceTo(owner) <= 2)
 					{
-						discard();
+						this.discard();
 					}
 					
 					if (this.hookedEntity != null)
@@ -88,8 +88,8 @@ public class EntityTidalHook extends AbstractArrow
 						if (this.hookedEntity.isRemoved()) 
 						{
 							this.hookedEntity = null;
-							discard();
-						} 
+							this.discard();
+						}
 						else 
 						{
 							moveTo(this.hookedEntity.getX(), this.hookedEntity.getY(0.8D), this.hookedEntity.getZ());

@@ -58,9 +58,7 @@ public class EntityFlyingTidalClaw extends AbstractOwnableMonster<EntityAbyssalM
 	@Override
 	protected void registerGoals() 
 	{
-		this.goalSelector.addGoal(4, new EntityFlyingTidalClaw.ClawHookGoal(this));
-		this.goalSelector.addGoal(4, new EntityFlyingTidalClaw.ClawTentacleGoal(this));
-		this.goalSelector.addGoal(4, new EntityFlyingTidalClaw.ClawLaserGoal(this));
+		this.goalSelector.addGoal(4, new EntityFlyingTidalClaw.ClawAttackGoal(this));
 		this.goalSelector.addGoal(4, new WaterAvoidingRandomFlyingGoal(this, 0.65));
 		this.targetSelector.addGoal(2, (new NearestAttackableTargetGoal<>(this, Player.class, true)).setUnseenMemoryTicks(300));
 		this.targetSelector.addGoal(3, (new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false)).setUnseenMemoryTicks(300));
@@ -201,6 +199,10 @@ public class EntityFlyingTidalClaw extends AbstractOwnableMonster<EntityAbyssalM
 		if(this.getOwner() != null)
 		{
 			EntityAbyssalMaster owner = this.getOwner();
+			if(!owner.list.contains(this))
+			{
+				owner.list.add(this);
+			}
 			if(owner.getTarget() != null)
 			{
 				Entity target = owner.getTarget();
@@ -236,10 +238,17 @@ public class EntityFlyingTidalClaw extends AbstractOwnableMonster<EntityAbyssalM
 		{
 			this.setTick(this.getTick() - 1);
 		}
-		else if(this.getTick() <= 0)
+	}
+	
+	@Override
+	public boolean isAlliedTo(Entity p_20355_)
+	{
+		if(this.getOwner() != null)
 		{
-			this.setTick(40);
+			boolean flag = p_20355_ instanceof EntityFlyingTidalClaw claw ? claw.getOwner() != null && claw.getOwner() == this.getOwner() : false;
+			return p_20355_ == this.getOwner() || flag;
 		}
+		return super.isAlliedTo(p_20355_);
 	}
 	
 	public void setTick(int tick)
@@ -269,11 +278,11 @@ public class EntityFlyingTidalClaw extends AbstractOwnableMonster<EntityAbyssalM
 		LASER;
 	}
 	
-	static class ClawHookGoal extends Goal
+	public static class ClawAttackGoal extends Goal
 	{
 		private EntityFlyingTidalClaw mob;
 		
-		public ClawHookGoal(EntityFlyingTidalClaw mob)
+		public ClawAttackGoal(EntityFlyingTidalClaw mob)
 		{
 			this.mob = mob;
 		}
@@ -281,43 +290,30 @@ public class EntityFlyingTidalClaw extends AbstractOwnableMonster<EntityAbyssalM
 		@Override
 		public boolean canUse() 
 		{
-			return this.mob.getTarget() != null && this.mob.getOwner() != null && this.mob.getTarget().distanceTo(this.mob.getOwner()) >= 8 && this.mob.type == ClawType.HOOK && this.mob.getTick() <= 0;
+			Entity entity = this.mob.getTarget();
+			boolean flag = this.mob.type == ClawType.HOOK ? this.mob.distanceTo(entity) >= 8 : true;
+			return entity != null && entity.isAlive() && this.mob.getTick() <= 0 && flag;
 		}
 		
 		@Override
-		public void tick() 
+		public void start() 
 		{
-			if(this.mob.getTick() <= 0)
+			super.start();
+			switch(this.mob.type)
 			{
+			case HOOK:
 		        double maxRange = this.mob.distanceTo(this.mob.getTarget()) + 5;
 		        double maxSpeed = 20.0D;
 		        EntityTidalHook hookshot = new EntityTidalHook(IllagerEntities.TIDAL_HOOK.get(), this.mob, this.mob.level);
 		        hookshot.setProperties(maxRange, maxSpeed, this.mob.getXRot(), this.mob.getYRot(), 0.0F, 1.5F * (float)(maxSpeed / 10.0D));
 		        this.mob.level.addFreshEntity(hookshot);
-			}
-		}
-	}
-	
-	static class ClawTentacleGoal extends Goal
-	{
-		private EntityFlyingTidalClaw mob;
-		
-		public ClawTentacleGoal(EntityFlyingTidalClaw mob)
-		{
-			this.mob = mob;
-		}
-		
-		@Override
-		public boolean canUse() 
-		{
-			return this.mob.getTarget() != null && this.mob.type == ClawType.TENTACLE && this.mob.getTick() <= 0;
-		}
-		
-		@Override
-		public void tick() 
-		{
-			if(this.mob.getTick() <= 0)
-			{
+				break;
+			case LASER:
+			    float dir = 90.0F;
+				Mini_Abyss_Blast_Entity beam = new Mini_Abyss_Blast_Entity(ModEntities.MINI_ABYSS_BLAST.get(), this.mob.level, this.mob, this.mob.getX(), this.mob.getEyeY() - 0.25, this.mob.getZ(), (float)((this.mob.yHeadRot + dir) * Math.PI / 180.0D), (float)(-this.mob.getXRot() * Math.PI / 180.0D), 80, dir);
+				this.mob.level.addFreshEntity(beam);
+				break;
+			case TENTACLE:
 		        Tidal_Tentacle_Entity segment = ModEntities.TIDAL_TENTACLE.get().create(this.mob.level);
 		        segment.moveTo(this.mob.getX(), this.mob.getEyeY() - 0.25, this.mob.getZ(), this.mob.getYRot(), this.mob.getXRot());
 		        this.mob.level.addFreshEntity(segment);
@@ -326,46 +322,11 @@ public class EntityFlyingTidalClaw extends AbstractOwnableMonster<EntityAbyssalM
 		        segment.setToEntityID(this.mob.getTarget().getId());
 		        segment.moveTo(this.mob.getX(), this.mob.getEyeY() - 0.25, this.mob.getZ(), this.mob.getYRot(), this.mob.getXRot());
 		        segment.setProgress(0.0F);
+				break;
+			default:
+				break;
 			}
-		}
-	}
-	
-	static class ClawLaserGoal extends Goal
-	{
-		private EntityFlyingTidalClaw mob;
-		
-		public ClawLaserGoal(EntityFlyingTidalClaw mob)
-		{
-			this.mob = mob;
-		}
-		
-		@Override
-		public boolean canUse() 
-		{
-			return this.mob.getTarget() != null && this.mob.type == ClawType.LASER && this.mob.getTick() <= 0;
-		}
-		
-		@Override
-		public void stop()
-		{
 			this.mob.setTick(40);
-		}
-		
-		@Override
-		public boolean requiresUpdateEveryTick() 
-		{
-			return true;
-		}
-		
-		@Override
-		public void tick() 
-		{
-			if(this.mob.getTick() <= 0)
-			{
-			    float dir = 90.0F;
-				Mini_Abyss_Blast_Entity beam = new Mini_Abyss_Blast_Entity(ModEntities.MINI_ABYSS_BLAST.get(), this.mob.level, this.mob, this.mob.getX(), this.mob.getEyeY() - 0.25, this.mob.getZ(), (float)((this.mob.yHeadRot + dir) * Math.PI / 180.0D), (float)(-this.mob.getXRot() * Math.PI / 180.0D), 80, dir);
-				this.mob.level.addFreshEntity(beam);
-			}
 		}
 	}
 }

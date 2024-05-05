@@ -1,5 +1,8 @@
 package com.min01.cataclysmicillagers.entity.leviathan;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.Abyss_Blast_Portal_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.min01.cataclysmicillagers.entity.CataclysmSpellCasterIllager;
@@ -15,6 +18,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -42,6 +46,8 @@ import net.minecraft.world.scores.PlayerTeam;
 
 public class EntityAbyssalMaster extends CataclysmSpellCasterIllager
 {
+	public List<EntityFlyingTidalClaw> list = new ArrayList<>();
+	
 	public EntityAbyssalMaster(EntityType<? extends CataclysmSpellCasterIllager> p_33724_, Level p_33725_) 
 	{
 		super(p_33724_, p_33725_);
@@ -71,6 +77,16 @@ public class EntityAbyssalMaster extends CataclysmSpellCasterIllager
 				.add(Attributes.FOLLOW_RANGE, 40.0D)
 				.add(Attributes.MAX_HEALTH, 50.0D)
 				.add(Attributes.ARMOR, 10.0D);
+	}
+	
+	@Override
+	public boolean isAlliedTo(Entity p_20355_) 
+	{
+		if(p_20355_ instanceof EntityFlyingTidalClaw claw)
+		{
+			return this.list.contains(claw);
+		}
+		return super.isAlliedTo(p_20355_);
 	}
 	
 	@Override
@@ -173,6 +189,7 @@ public class EntityAbyssalMaster extends CataclysmSpellCasterIllager
 					PlayerTeam team = EntityAbyssalMaster.this.getServer().getScoreboard().getPlayerTeam(EntityAbyssalMaster.this.getTeam().getName());
 					EntityAbyssalMaster.this.getServer().getScoreboard().addPlayerToTeam(claw.getStringUUID(), team);
 				}
+				EntityAbyssalMaster.this.list.add(claw);
 				serverlevel.addFreshEntityWithPassengers(claw);
 			}
 		}

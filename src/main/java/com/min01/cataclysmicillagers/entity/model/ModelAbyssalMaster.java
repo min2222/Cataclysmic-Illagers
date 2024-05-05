@@ -109,6 +109,8 @@ public class ModelAbyssalMaster extends EntityModel<EntityAbyssalMaster> impleme
 	{
 		this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
 		this.head.xRot = headPitch * ((float)Math.PI / 180F);
+		this.nose.yRot = netHeadYaw * ((float)Math.PI / 180F);
+		this.nose.xRot = headPitch * ((float)Math.PI / 180F);
 		if(this.riding) 
 		{
 			this.right_arm.xRot = (-(float)Math.PI / 5F);
@@ -123,7 +125,7 @@ public class ModelAbyssalMaster extends EntityModel<EntityAbyssalMaster> impleme
 			this.left_leg.xRot = -1.4137167F;
 			this.left_leg.yRot = (-(float)Math.PI / 10F);
 			this.left_leg.zRot = -0.07853982F;
-		} 
+		}
 		else 
 		{
 			this.right_arm.xRot = Mth.cos(limbSwing * 0.6662F + (float)Math.PI) * 2.0F * limbSwingAmount * 0.5F;
