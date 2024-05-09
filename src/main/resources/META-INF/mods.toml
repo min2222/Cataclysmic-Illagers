@@ -42,7 +42,7 @@ authors="min01" #optional
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-add illagers based on L_ender's cataclysm mod.
+add unique illagers based on L_ender's cataclysm mod.
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.cataclysmicillagers]] #optional
