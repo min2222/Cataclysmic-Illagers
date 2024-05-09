@@ -29,7 +29,7 @@ displayName="Cataclysmic Illagers" #mandatory
 # A file name (in the root of the mod JAR) containing a logo for display
 logoFile="" #optional
 # A text field displayed in the mod UI
-credits="" #optional
+credits="mob sounds by DarkFedora Productions" #optional
 # A text field displayed in the mod UI
 authors="min01" #optional
 # Display Test controls the display for your mod in the server connection screen
