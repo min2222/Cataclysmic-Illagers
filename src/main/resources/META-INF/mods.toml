@@ -27,7 +27,7 @@ displayName="Cataclysmic Illagers" #mandatory
 # A URL for the "homepage" for this mod, displayed in the mod UI
 #displayURL="" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
-logoFile="" #optional
+logoFile="logo.png" #optional
 # A text field displayed in the mod UI
 credits="mob sounds by DarkFedora Productions" #optional
 # A text field displayed in the mod UI
