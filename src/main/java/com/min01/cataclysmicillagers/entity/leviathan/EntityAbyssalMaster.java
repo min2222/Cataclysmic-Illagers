@@ -8,6 +8,7 @@ import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.min01.cataclysmicillagers.entity.CataclysmSpellCasterIllager;
 import com.min01.cataclysmicillagers.entity.IllagerEntities;
 import com.min01.cataclysmicillagers.entity.leviathan.EntityFlyingTidalClaw.ClawType;
+import com.min01.cataclysmicillagers.sound.IllagerSounds;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -92,19 +93,19 @@ public class EntityAbyssalMaster extends CataclysmSpellCasterIllager
 	@Override
 	protected SoundEvent getAmbientSound() 
 	{
-		return SoundEvents.EVOKER_AMBIENT;
+		return IllagerSounds.ABYSSAL_MASTER_AMBIENT.get();
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() 
 	{
-		return SoundEvents.EVOKER_DEATH;
+		return IllagerSounds.ABYSSAL_MASTER_DEATH.get();
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource p_32654_)
 	{
-		return SoundEvents.EVOKER_HURT;
+		return IllagerSounds.ABYSSAL_MASTER_HURT.get();
 	}
 
 	@Override

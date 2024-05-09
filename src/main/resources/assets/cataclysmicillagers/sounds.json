@@ -1,0 +1,32 @@
+{
+	"abyssal_master_ambient": {
+		"category": "entity",
+		"subtitle": "abyssal_master_ambient",
+		"sounds": [
+			"cataclysmicillagers:entity/abyssal_master_ambient1",
+			"cataclysmicillagers:entity/abyssal_master_ambient2",
+			"cataclysmicillagers:entity/abyssal_master_ambient3",
+			"cataclysmicillagers:entity/abyssal_master_ambient4",
+			"cataclysmicillagers:entity/abyssal_master_ambient5"
+		]
+	},
+	"abyssal_master_hurt": {
+		"category": "entity",
+		"subtitle": "abyssal_master_hurt",
+		"sounds": [
+			"cataclysmicillagers:entity/abyssal_master_hurt1",
+			"cataclysmicillagers:entity/abyssal_master_hurt2",
+			"cataclysmicillagers:entity/abyssal_master_hurt3"
+		]
+	},
+	"abyssal_master_death": {
+		"category": "entity",
+		"subtitle": "abyssal_master_death",
+		"sounds": [
+			{
+				"name": "cataclysmicillagers:entity/abyssal_master_death",
+				"stream": true
+			}
+		]
+	}
+}
