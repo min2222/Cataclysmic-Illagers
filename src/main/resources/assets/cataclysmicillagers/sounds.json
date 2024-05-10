@@ -15,8 +15,7 @@
 		"subtitle": "abyssal_master_hurt",
 		"sounds": [
 			"cataclysmicillagers:entity/abyssal_master_hurt1",
-			"cataclysmicillagers:entity/abyssal_master_hurt2",
-			"cataclysmicillagers:entity/abyssal_master_hurt3"
+			"cataclysmicillagers:entity/abyssal_master_hurt2"
 		]
 	},
 	"abyssal_master_death": {

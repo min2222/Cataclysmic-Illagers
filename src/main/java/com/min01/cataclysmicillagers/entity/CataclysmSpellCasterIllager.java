@@ -2,6 +2,7 @@ package com.min01.cataclysmicillagers.entity;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -108,6 +109,11 @@ public abstract class CataclysmSpellCasterIllager extends AbstractIllager
 			float f2 = Mth.sin(f);
 			this.level.addParticle(ParticleTypes.ENTITY_EFFECT, this.getX() + (double) f1 * 0.6D, this.getY() + 1.8D, this.getZ() + (double) f2 * 0.6D, color.x, color.y, color.z);
 			this.level.addParticle(ParticleTypes.ENTITY_EFFECT, this.getX() - (double) f1 * 0.6D, this.getY() + 1.8D, this.getZ() - (double) f2 * 0.6D, color.x, color.y, color.z);
+		}
+		
+		if(this.getTarget() != null)
+		{
+			this.lookAt(Anchor.EYES, this.getTarget().getEyePosition());
 		}
 	}
 

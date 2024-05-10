@@ -44,6 +44,12 @@ description='''
 add unique illagers based on L_ender's cataclysm mod.
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
+[[dependencies.cataclysmicillagers]]
+    modId="cataclysm"
+    mandatory=true
+    versionRange="[1.0,)"
+    ordering="AFTER"
+    side="BOTH"
 [[dependencies.cataclysmicillagers]] #optional
     # the modid of the dependency
     modId="forge" #mandatory
