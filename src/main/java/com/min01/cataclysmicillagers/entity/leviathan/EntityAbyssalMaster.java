@@ -87,6 +87,10 @@ public class EntityAbyssalMaster extends CataclysmSpellCasterIllager
 		{
 			return this.list.contains(claw);
 		}
+		if(p_20355_ instanceof Raider)
+		{
+			return this.hasActiveRaid();
+		}
 		return super.isAlliedTo(p_20355_);
 	}
 	

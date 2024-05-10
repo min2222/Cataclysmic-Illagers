@@ -245,8 +245,14 @@ public class EntityFlyingTidalClaw extends AbstractOwnableMonster<EntityAbyssalM
 	{
 		if(this.getOwner() != null)
 		{
-			boolean flag = p_20355_ instanceof EntityFlyingTidalClaw claw ? claw.getOwner() != null && claw.getOwner() == this.getOwner() : false;
-			return p_20355_ == this.getOwner() || flag;
+			if(p_20355_ == this.getOwner())
+			{
+				return true;
+			}
+			else
+			{
+				return this.getOwner().isAlliedTo(p_20355_);
+			}
 		}
 		return super.isAlliedTo(p_20355_);
 	}
