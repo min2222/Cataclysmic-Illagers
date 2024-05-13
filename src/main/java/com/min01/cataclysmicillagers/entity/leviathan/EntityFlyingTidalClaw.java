@@ -1,9 +1,6 @@
 package com.min01.cataclysmicillagers.entity.leviathan;
 
-import com.github.L_Ender.cataclysm.entity.projectile.Mini_Abyss_Blast_Entity;
-import com.github.L_Ender.cataclysm.entity.projectile.Tidal_Tentacle_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
-import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.min01.cataclysmicillagers.entity.AbstractOwnableMonster;
 import com.min01.cataclysmicillagers.entity.IllagerEntities;
 import com.min01.cataclysmicillagers.entity.ai.goal.AbstractSkillGoal;
@@ -288,11 +285,11 @@ public class EntityFlyingTidalClaw extends AbstractOwnableMonster<EntityAbyssalM
 				break;
 			case LASER:
 			    float dir = 90.0F;
-				Mini_Abyss_Blast_Entity beam = new Mini_Abyss_Blast_Entity(ModEntities.MINI_ABYSS_BLAST.get(), this.mob.level, this.mob, this.mob.getX(), this.mob.getEyeY() - 0.25, this.mob.getZ(), (float)((this.mob.yHeadRot + dir) * Math.PI / 180.0D), (float)(-this.mob.getXRot() * Math.PI / 180.0D), 80, dir);
+				EntityMiniAbyssBlast beam = new EntityMiniAbyssBlast(IllagerEntities.MINI_ABYSS_BLAST.get(), this.mob.level, this.mob, this.mob.getX(), this.mob.getEyeY() - 0.25, this.mob.getZ(), (float)((this.mob.yHeadRot + dir) * Math.PI / 180.0D), (float)(-this.mob.getXRot() * Math.PI / 180.0D), 80, dir);
 				this.mob.level.addFreshEntity(beam);
 				break;
 			case TENTACLE:
-		        Tidal_Tentacle_Entity segment = ModEntities.TIDAL_TENTACLE.get().create(this.mob.level);
+		        EntityTidalTentacle segment = IllagerEntities.TIDAL_TENTACLE.get().create(this.mob.level);
 		        segment.moveTo(this.mob.getX(), this.mob.getEyeY() - 0.25, this.mob.getZ(), this.mob.getYRot(), this.mob.getXRot());
 		        this.mob.level.addFreshEntity(segment);
 		        segment.setCreatorEntityUUID(this.mob.getUUID());
