@@ -6,13 +6,11 @@ import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.min01.cataclysmicillagers.entity.AbstractOwnableMonster;
 import com.min01.cataclysmicillagers.entity.IllagerEntities;
+import com.min01.cataclysmicillagers.entity.ai.goal.AbstractSkillGoal;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -22,7 +20,6 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomFlyingGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -39,8 +36,7 @@ import net.minecraftforge.fluids.FluidType;
 
 public class EntityFlyingTidalClaw extends AbstractOwnableMonster<EntityAbyssalMaster>
 {
-	private ClawType type;
-	private static final EntityDataAccessor<Integer> TICK = SynchedEntityData.defineId(EntityFlyingTidalClaw.class, EntityDataSerializers.INT);
+	public ClawType type;
 	
 	public EntityFlyingTidalClaw(EntityType<? extends Monster> p_19870_, Level p_19871_) 
 	{
@@ -72,13 +68,6 @@ public class EntityFlyingTidalClaw extends AbstractOwnableMonster<EntityAbyssalM
     			.add(Attributes.MAX_HEALTH, 10.0D)
     			.add(Attributes.FLYING_SPEED, 0.65D)
     			.add(Attributes.FOLLOW_RANGE, 20);
-    }
-    
-    @Override
-    protected void defineSynchedData()
-    {
-    	super.defineSynchedData();
-    	this.entityData.define(TICK, 40);
     }
 	
 	@Override
@@ -233,11 +222,6 @@ public class EntityFlyingTidalClaw extends AbstractOwnableMonster<EntityAbyssalM
 		{
 			this.discard();
 		}
-		
-		if(this.getTick() > 0)
-		{
-			this.setTick(this.getTick() - 1);
-		}
 	}
 	
 	@Override
@@ -257,16 +241,6 @@ public class EntityFlyingTidalClaw extends AbstractOwnableMonster<EntityAbyssalM
 		return super.isAlliedTo(p_20355_);
 	}
 	
-	public void setTick(int tick)
-	{
-		this.entityData.set(TICK, tick);
-	}
-	
-	public int getTick()
-	{
-		return this.entityData.get(TICK);
-	}
-	
 	public void setClawType(ClawType type)
 	{
 		this.type = type;
@@ -284,7 +258,7 @@ public class EntityFlyingTidalClaw extends AbstractOwnableMonster<EntityAbyssalM
 		LASER;
 	}
 	
-	public static class ClawAttackGoal extends Goal
+	public static class ClawAttackGoal extends AbstractSkillGoal<EntityFlyingTidalClaw>
 	{
 		private EntityFlyingTidalClaw mob;
 		
@@ -294,21 +268,15 @@ public class EntityFlyingTidalClaw extends AbstractOwnableMonster<EntityAbyssalM
 		}
 		
 		@Override
-		public boolean canUse() 
+		public boolean additionalStartCondition() 
 		{
-			Entity entity = this.mob.getTarget();
-			if(entity != null)
-			{
-				boolean flag = this.mob.type == ClawType.HOOK ? this.mob.distanceTo(entity) >= 8 : true;
-				return entity.isAlive() && this.mob.getTick() <= 0 && flag;
-			}
-			return false;
+			boolean flag = this.mob.type == ClawType.HOOK ? this.mob.distanceTo(this.mob.getTarget()) >= 8 : true;
+			return flag;
 		}
 		
 		@Override
-		public void start() 
+		protected void performSkill() 
 		{
-			super.start();
 			switch(this.mob.type)
 			{
 			case HOOK:
@@ -336,7 +304,30 @@ public class EntityFlyingTidalClaw extends AbstractOwnableMonster<EntityAbyssalM
 			default:
 				break;
 			}
-			this.mob.setTick(40);
+		}
+
+		@Override
+		protected int getSkillUsingTime() 
+		{
+			return 40;
+		}
+
+		@Override
+		protected int getSkillUsingInterval()
+		{
+			return 20;
+		}
+		
+		@Override
+		protected int getSkillWarmupTime() 
+		{
+			return 10;
+		}
+
+		@Override
+		public EntityFlyingTidalClaw getMob()
+		{
+			return this.mob;
 		}
 	}
 }

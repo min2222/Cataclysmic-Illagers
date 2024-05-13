@@ -9,6 +9,7 @@ import com.min01.cataclysmicillagers.entity.leviathan.EntityAbyssalMaster;
 import com.min01.cataclysmicillagers.entity.leviathan.EntityFlyingTidalClaw;
 import com.min01.cataclysmicillagers.util.IllagerUtil;
 
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
@@ -30,6 +31,23 @@ public class EventHandlerForge
 		if(event.level instanceof ServerLevel level)
 		{
 			level.getAllEntities().forEach(t -> 
+			{
+				if(t instanceof Mini_Abyss_Blast_Entity blast)
+				{
+					if(blast.caster != null && blast.caster instanceof EntityFlyingTidalClaw claw)
+					{
+						blast.setPos(claw.getX(), claw.getEyeY() - 0.25, claw.getZ());
+						if(!claw.isAlive() || claw.getTarget() == null)
+						{
+							blast.discard();
+						}
+					}
+				}
+			});
+		}
+		else if(event.level instanceof ClientLevel level)
+		{
+			level.entitiesForRendering().forEach(t -> 
 			{
 				if(t instanceof Mini_Abyss_Blast_Entity blast)
 				{

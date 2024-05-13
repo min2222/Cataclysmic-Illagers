@@ -19,6 +19,9 @@ import net.minecraft.world.level.Level;
 public abstract class AbstractOwnableMonster<T extends LivingEntity> extends Monster
 {
 	public static final EntityDataAccessor<Optional<UUID>> OWNER_UUID = SynchedEntityData.defineId(AbstractOwnableMonster.class, EntityDataSerializers.OPTIONAL_UUID);
+	public static final EntityDataAccessor<Boolean> IS_USING_SKILL = SynchedEntityData.defineId(AbstractOwnableMonster.class, EntityDataSerializers.BOOLEAN);
+	
+	public int skillUsingTickCount;
 	
 	public AbstractOwnableMonster(EntityType<? extends Monster> p_19870_, Level p_19871_) 
 	{
@@ -30,6 +33,32 @@ public abstract class AbstractOwnableMonster<T extends LivingEntity> extends Mon
 	{
 		super.defineSynchedData();
 		this.entityData.define(OWNER_UUID, Optional.empty());
+		this.entityData.define(IS_USING_SKILL, false);
+	}
+	
+	public void setIsUsingSkill(boolean value) 
+	{
+		this.entityData.set(IS_USING_SKILL, value);
+	}
+	
+	protected int getSkillUsingTime()
+	{
+		return this.skillUsingTickCount;
+	}
+	
+	public boolean isUsingSkill() 
+	{
+		return this.skillUsingTickCount > 0 || this.entityData.get(IS_USING_SKILL);
+	}
+	
+	@Override
+	protected void customServerAiStep() 
+	{
+		super.customServerAiStep();
+		if(this.skillUsingTickCount > 0)
+		{
+			--this.skillUsingTickCount;
+		}
 	}
 	
 	@Override

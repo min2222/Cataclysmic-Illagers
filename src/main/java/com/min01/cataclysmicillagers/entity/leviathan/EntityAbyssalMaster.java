@@ -95,6 +95,12 @@ public class EntityAbyssalMaster extends CataclysmSpellCasterIllager
 	}
 	
 	@Override
+	public int getAmbientSoundInterval() 
+	{
+		return 40;
+	}
+	
+	@Override
 	protected SoundEvent getAmbientSound() 
 	{
 		return IllagerSounds.ABYSSAL_MASTER_AMBIENT.get();

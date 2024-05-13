@@ -25,8 +25,7 @@ import net.minecraft.world.entity.monster.AbstractIllager.IllagerArmPose;
 public class ModelAbyssalMaster extends EntityModel<EntityAbyssalMaster> implements ArmedModel, HeadedModel
 {
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(CataclysmicIllagers.MODID, "abyssal_master"), "main");
-	private final ModelPart nose;
-	private final ModelPart hod;
+	private final ModelPart hood;
 	private final ModelPart head;
 	private final ModelPart body;
 	private final ModelPart arms;
@@ -37,8 +36,7 @@ public class ModelAbyssalMaster extends EntityModel<EntityAbyssalMaster> impleme
 
 	public ModelAbyssalMaster(ModelPart root)
 	{
-		this.nose = root.getChild("nose");
-		this.hod = root.getChild("hod");
+		this.hood = root.getChild("hood");
 		this.head = root.getChild("head");
 		this.body = root.getChild("body");
 		this.arms = root.getChild("arms");
@@ -53,15 +51,13 @@ public class ModelAbyssalMaster extends EntityModel<EntityAbyssalMaster> impleme
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		partdefinition.addOrReplaceChild("nose", CubeListBuilder.create().texOffs(24, 0).addBox(-1.0F, -1.0F, -6.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -2.0F, 0.0F));
-
-		PartDefinition hod = partdefinition.addOrReplaceChild("hod", CubeListBuilder.create().texOffs(60, 22).addBox(-4.5281F, -2.7064F, -1.5719F, 10.0F, 4.0F, 8.0F, new CubeDeformation(0.0F))
+		PartDefinition hood = partdefinition.addOrReplaceChild("hood", CubeListBuilder.create().texOffs(60, 22).addBox(-4.5281F, -2.7064F, -1.5719F, 10.0F, 4.0F, 8.0F, new CubeDeformation(0.0F))
 		.texOffs(56, -4).addBox(4.4719F, -8.9064F, 4.4281F, 0.0F, 8.0F, 4.0F, new CubeDeformation(0.0F))
 		.texOffs(32, 65).addBox(-4.5281F, -5.7064F, -1.5719F, 10.0F, 6.0F, 8.0F, new CubeDeformation(-0.1F)), PartPose.offset(-0.4719F, -0.0936F, -0.4281F));
 
-		hod.addOrReplaceChild("head_r1", CubeListBuilder.create().texOffs(75, 12).mirror().addBox(-5.0F, 0.0F, 0.0F, 10.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.4719F, -2.7064F, 6.4281F, 0.4363F, 0.0F, 0.0F));
+		hood.addOrReplaceChild("head_r1", CubeListBuilder.create().texOffs(75, 12).mirror().addBox(-5.0F, 0.0F, 0.0F, 10.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.4719F, -2.7064F, 6.4281F, 0.4363F, 0.0F, 0.0F));
 
-		hod.addOrReplaceChild("head_r2", CubeListBuilder.create().texOffs(71, 15).mirror().addBox(-3.0F, 0.0F, -3.5F, 3.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-4.5281F, -2.7064F, 5.9281F, 0.0F, 0.0F, 0.4363F));
+		hood.addOrReplaceChild("head_r2", CubeListBuilder.create().texOffs(71, 15).mirror().addBox(-3.0F, 0.0F, -3.5F, 3.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-4.5281F, -2.7064F, 5.9281F, 0.0F, 0.0F, 0.4363F));
 
 		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -10.0F, -4.0F, 8.0F, 10.0F, 8.0F, new CubeDeformation(0.0F))
 		.texOffs(28, 44).addBox(-8.0F, -8.0F, -4.0F, 4.0F, 4.0F, 0.0F, new CubeDeformation(0.0F))
@@ -71,6 +67,8 @@ public class ModelAbyssalMaster extends EntityModel<EntityAbyssalMaster> impleme
 		.texOffs(0, 0).mirror().addBox(-8.0F, -8.0F, 0.0F, 4.0F, 8.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		head.addOrReplaceChild("head_r3", CubeListBuilder.create().texOffs(71, 15).addBox(0.0F, 0.0F, -3.5F, 3.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.0F, -2.8F, 5.5F, 0.0F, 0.0F, -0.4363F));
+
+		head.addOrReplaceChild("nose", CubeListBuilder.create().texOffs(24, 0).addBox(-1.0F, -1.0F, -6.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -2.0F, 0.0F));
 
 		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(16, 20).addBox(-4.0F, 0.0F, -3.0F, 8.0F, 12.0F, 6.0F, new CubeDeformation(0.0F))
 		.texOffs(0, 38).addBox(-4.0F, 0.0F, -3.0F, 8.0F, 18.0F, 6.0F, new CubeDeformation(0.25F)), PartPose.offset(0.0F, 0.0F, 0.0F));
@@ -109,8 +107,6 @@ public class ModelAbyssalMaster extends EntityModel<EntityAbyssalMaster> impleme
 	{
 		this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
 		this.head.xRot = headPitch * ((float)Math.PI / 180F);
-		this.nose.yRot = netHeadYaw * ((float)Math.PI / 180F);
-		this.nose.xRot = headPitch * ((float)Math.PI / 180F);
 		if(this.riding) 
 		{
 			this.right_arm.xRot = (-(float)Math.PI / 5F);
@@ -165,8 +161,7 @@ public class ModelAbyssalMaster extends EntityModel<EntityAbyssalMaster> impleme
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha)
 	{
-		nose.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		hod.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		hood.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		arms.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
