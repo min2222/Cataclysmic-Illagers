@@ -22,17 +22,25 @@ public class EntityMiniAbyssBlast extends Mini_Abyss_Blast_Entity
 	public void tick() 
 	{
 		super.tick();
-        if(!this.level.isClientSide) 
-        {
+		if(this.caster != null)
+		{
             if(this.caster instanceof EntityFlyingTidalClaw claw)
             {
-            	if(claw.getTarget() == null)
+            	if(!claw.isAlive())
+            	{
+            		this.discard();
+            	}
+            	if(!claw.level.isClientSide && claw.getTarget() == null)
             	{
             		this.discard();
             	}
                 this.updatePos();
             }
-        }
+		}
+		else
+		{
+        	this.discard();
+		}
 	}
 	
     private void updatePos()
