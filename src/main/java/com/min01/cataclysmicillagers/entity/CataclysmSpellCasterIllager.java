@@ -101,13 +101,12 @@ public abstract class CataclysmSpellCasterIllager extends AbstractIllager
 		if(this.isCastingSpell()) 
 		{
 			return AbstractIllager.IllagerArmPose.SPELLCASTING;
-		} 
+		}
 		else
 		{
 			return this.isCelebrating() ? AbstractIllager.IllagerArmPose.CELEBRATING : AbstractIllager.IllagerArmPose.CROSSED;
 		}
 	}
-
 	
 	public boolean isCastingSpell()
 	{
@@ -173,7 +172,9 @@ public abstract class CataclysmSpellCasterIllager extends AbstractIllager
 	{
 		NONE(0, 0),
 		ABYSS_BLAST_PORTAL(1, 3411567),
-		FLYING_TIDAL_CLAW(2, 3411567);
+		FLYING_TIDAL_CLAW(2, 3411567),
+		ANCIENT_STELE(3, 12159548);
+		
 		final int id;
 		final int spellColor;
 

@@ -5,6 +5,7 @@ import com.min01.cataclysmicillagers.entity.remnant.EntityDesertMonarch;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HeadedModel;
@@ -19,6 +20,8 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.monster.AbstractIllager;
+import net.minecraft.world.entity.monster.AbstractIllager.IllagerArmPose;
 
 public class ModelDesertMonarch extends EntityModel<EntityDesertMonarch> implements ArmedModel, HeadedModel
 {
@@ -144,6 +147,25 @@ public class ModelDesertMonarch extends EntityModel<EntityDesertMonarch> impleme
 			this.left_leg.xRot = Mth.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount * 0.5F;
 			this.left_leg.yRot = 0.0F;
 			this.left_leg.zRot = 0.0F;
+		}
+		
+		if(entity.getArmPose() == IllagerArmPose.SPELLCASTING)
+		{
+	        this.right_arm.z = 0.0F;
+	        this.right_arm.x = -5.0F;
+	        this.left_arm.z = 0.0F;
+	        this.left_arm.x = 5.0F;
+	        this.right_arm.xRot = Mth.cos(ageInTicks * 0.6662F) * 0.25F;
+	        this.left_arm.xRot = Mth.cos(ageInTicks * 0.6662F) * 0.25F;
+	        this.right_arm.zRot = 2.3561945F;
+	        this.left_arm.zRot = -2.3561945F;
+	        this.right_arm.yRot = 0.0F;
+	        this.left_arm.yRot = 0.0F;
+		}
+		
+		if(entity.getArmPose() == AbstractIllager.IllagerArmPose.ATTACKING)
+		{
+			AnimationUtils.swingWeaponDown(this.right_arm, this.left_arm, entity, this.attackTime, ageInTicks);
 		}
 	}
 
