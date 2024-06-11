@@ -22,24 +22,15 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
-import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Vex;
-import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -58,17 +49,9 @@ public class EntityAbyssalMaster extends CataclysmSpellCasterIllager
 	protected void registerGoals() 
 	{
 		super.registerGoals();
-		this.goalSelector.addGoal(0, new FloatGoal(this));
 		this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 0.6D, 1.0D));
 		this.goalSelector.addGoal(4, new EntityAbyssalMaster.AbyssalMasterSummonClawsGoal());
 		this.goalSelector.addGoal(4, new EntityAbyssalMaster.AbyssalMasterLaserGoal());
-		this.goalSelector.addGoal(8, new RandomStrollGoal(this, 0.6D));
-		this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));
-		this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Mob.class, 8.0F));
-		this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, Raider.class)).setAlertOthers());
-		this.targetSelector.addGoal(2, (new NearestAttackableTargetGoal<>(this, Player.class, true)).setUnseenMemoryTicks(300));
-		this.targetSelector.addGoal(3, (new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false)).setUnseenMemoryTicks(300));
-		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, false));
 	}
 	
 	public static AttributeSupplier.Builder createAttributes() 
@@ -86,10 +69,6 @@ public class EntityAbyssalMaster extends CataclysmSpellCasterIllager
 		if(p_20355_ instanceof EntityFlyingTidalClaw claw)
 		{
 			return this.list.contains(claw);
-		}
-		if(p_20355_ instanceof Raider)
-		{
-			return this.hasActiveRaid();
 		}
 		return super.isAlliedTo(p_20355_);
 	}
@@ -123,12 +102,6 @@ public class EntityAbyssalMaster extends CataclysmSpellCasterIllager
 	{
 		return SoundEvents.EVOKER_CAST_SPELL;
 	}
-
-	@Override
-	public void applyRaidBuffs(int p_37844_, boolean p_37845_) 
-	{
-		
-	}
 	
 	@Override
 	public boolean canBeAffected(MobEffectInstance p_21197_) 
@@ -149,7 +122,7 @@ public class EntityAbyssalMaster extends CataclysmSpellCasterIllager
 		@Override
 		public boolean canUse() 
 		{
-			if (!super.canUse())
+			if(!super.canUse())
 			{
 				return false;
 			}
@@ -239,15 +212,15 @@ public class EntityAbyssalMaster extends CataclysmSpellCasterIllager
 			double d0 = Math.min(livingentity.getY(), EntityAbyssalMaster.this.getY());
 			double d1 = Math.max(livingentity.getY(), EntityAbyssalMaster.this.getY()) + 1.0D;
 			float f = (float) Mth.atan2(livingentity.getZ() - EntityAbyssalMaster.this.getZ(), livingentity.getX() - EntityAbyssalMaster.this.getX());
-			if (EntityAbyssalMaster.this.distanceToSqr(livingentity) < 9.0D)
+			if(EntityAbyssalMaster.this.distanceToSqr(livingentity) < 9.0D)
 			{
-				for (int i = 0; i < 5; ++i)
+				for(int i = 0; i < 5; ++i)
 				{
 					float f1 = f + (float) i * (float) Math.PI * 0.4F;
 					this.createSpellEntity(EntityAbyssalMaster.this.getX() + (double) Mth.cos(f1) * 1.5D, EntityAbyssalMaster.this.getZ() + (double) Mth.sin(f1) * 1.5D, d0, d1, f1, 0);
 				}
 
-				for (int k = 0; k < 8; ++k) 
+				for(int k = 0; k < 8; ++k) 
 				{
 					float f2 = f + (float) k * (float) Math.PI * 2.0F / 8.0F + 3.2566371F;
 					this.createSpellEntity(EntityAbyssalMaster.this.getX() + (double) Mth.cos(f2) * 2.5D, EntityAbyssalMaster.this.getZ() + (double) Mth.sin(f2) * 2.5D, d0, d1, f2, 3);
@@ -255,7 +228,7 @@ public class EntityAbyssalMaster extends CataclysmSpellCasterIllager
 			}
 			else 
 			{
-				for (int l = 0; l < 40; ++l) 
+				for(int l = 0; l < 40; ++l) 
 				{
 					double d2 = 3.25D * (double) (l + 1);
 					int j = 1 * l;
@@ -274,13 +247,13 @@ public class EntityAbyssalMaster extends CataclysmSpellCasterIllager
 			{
 				BlockPos blockpos1 = blockpos.below();
 				BlockState blockstate = EntityAbyssalMaster.this.level.getBlockState(blockpos1);
-				if (blockstate.isFaceSturdy(EntityAbyssalMaster.this.level, blockpos1, Direction.UP)) 
+				if(blockstate.isFaceSturdy(EntityAbyssalMaster.this.level, blockpos1, Direction.UP)) 
 				{
-					if (!EntityAbyssalMaster.this.level.isEmptyBlock(blockpos))
+					if(!EntityAbyssalMaster.this.level.isEmptyBlock(blockpos))
 					{
 						BlockState blockstate1 = EntityAbyssalMaster.this.level.getBlockState(blockpos);
 						VoxelShape voxelshape = blockstate1.getCollisionShape(EntityAbyssalMaster.this.level, blockpos);
-						if (!voxelshape.isEmpty()) 
+						if(!voxelshape.isEmpty()) 
 						{
 							d0 = voxelshape.max(Direction.Axis.Y);
 						}
@@ -291,9 +264,10 @@ public class EntityAbyssalMaster extends CataclysmSpellCasterIllager
 				}
 
 				blockpos = blockpos.below();
-			} while (blockpos.getY() >= Mth.floor(p_32675_) - 1);
+			} 
+			while(blockpos.getY() >= Mth.floor(p_32675_) - 1);
 
-			if (flag) 
+			if(flag) 
 			{
 				Abyss_Blast_Portal_Entity portal = new Abyss_Blast_Portal_Entity(EntityAbyssalMaster.this.level, p_32673_, (double) blockpos.getY() + d0, p_32674_, p_32677_, p_32678_, EntityAbyssalMaster.this);
 				if(EntityAbyssalMaster.this.getTeam() != null)

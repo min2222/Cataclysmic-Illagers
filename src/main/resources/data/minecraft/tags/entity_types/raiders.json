@@ -1,6 +1,7 @@
 {
 	"replace": false,
 	"values": [
-		"cataclysmicillagers:abyssal_master"
+		"cataclysmicillagers:abyssal_master",
+		"cataclysmicillagers:desert_monarch"
 	]
 }

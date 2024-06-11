@@ -10,10 +10,21 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.AbstractIllager;
+import net.minecraft.world.entity.npc.AbstractVillager;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -26,6 +37,41 @@ public abstract class CataclysmSpellCasterIllager extends AbstractIllager
 	protected CataclysmSpellCasterIllager(EntityType<? extends CataclysmSpellCasterIllager> p_33724_, Level p_33725_)
 	{
 		super(p_33724_, p_33725_);
+	}
+	
+	@Override
+	protected void registerGoals()
+	{
+		super.registerGoals();
+		this.goalSelector.addGoal(0, new FloatGoal(this));
+		this.goalSelector.addGoal(8, new RandomStrollGoal(this, this.getRandomStrollSpeed()));
+		this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));
+		this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Mob.class, 8.0F));
+		this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, Raider.class)).setAlertOthers());
+		this.targetSelector.addGoal(2, (new NearestAttackableTargetGoal<>(this, Player.class, true)).setUnseenMemoryTicks(300));
+		this.targetSelector.addGoal(3, (new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false)).setUnseenMemoryTicks(300));
+		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, false));
+	}
+	
+	public double getRandomStrollSpeed()
+	{
+		return 0.6D;
+	}
+	
+	@Override
+	public boolean isAlliedTo(Entity p_20355_) 
+	{
+		if(p_20355_ instanceof Raider)
+		{
+			return this.hasActiveRaid();
+		}
+		return super.isAlliedTo(p_20355_);
+	}
+	
+	@Override
+	public void applyRaidBuffs(int p_37844_, boolean p_37845_) 
+	{
+		
 	}
 
 	@Override
@@ -52,7 +98,7 @@ public abstract class CataclysmSpellCasterIllager extends AbstractIllager
 	@Override
 	public AbstractIllager.IllagerArmPose getArmPose()
 	{
-		if (this.isCastingSpell()) 
+		if(this.isCastingSpell()) 
 		{
 			return AbstractIllager.IllagerArmPose.SPELLCASTING;
 		} 
@@ -65,7 +111,7 @@ public abstract class CataclysmSpellCasterIllager extends AbstractIllager
 	
 	public boolean isCastingSpell()
 	{
-		if (this.level.isClientSide)
+		if(this.level.isClientSide)
 		{
 			return this.entityData.get(DATA_SPELL_CASTING_ID) > 0;
 		} 
@@ -89,8 +135,7 @@ public abstract class CataclysmSpellCasterIllager extends AbstractIllager
 	@Override
 	protected void customServerAiStep() 
 	{
-		super.customServerAiStep();
-		if (this.spellCastingTickCount > 0)
+		if(this.spellCastingTickCount > 0)
 		{
 			--this.spellCastingTickCount;
 		}
@@ -100,7 +145,7 @@ public abstract class CataclysmSpellCasterIllager extends AbstractIllager
 	public void tick() 
 	{
 		super.tick();
-		if (this.level.isClientSide && this.isCastingSpell())
+		if(this.level.isClientSide && this.isCastingSpell())
 		{
 			CataclysmSpellCasterIllager.CataclysmIllagerSpell spellcasterillager$illagerspell = this.getCurrentSpell();
 			Vec3 color = Vec3.fromRGB24(spellcasterillager$illagerspell.spellColor);
@@ -142,7 +187,7 @@ public abstract class CataclysmSpellCasterIllager extends AbstractIllager
 		{
 			for(CataclysmIllagerSpell spellcasterillager$illagerspell : values()) 
 			{
-				if (p_33759_ == spellcasterillager$illagerspell.id)
+				if(p_33759_ == spellcasterillager$illagerspell.id)
 				{
 					return spellcasterillager$illagerspell;
 				}
@@ -165,9 +210,9 @@ public abstract class CataclysmSpellCasterIllager extends AbstractIllager
 		public boolean canUse()
 		{
 			LivingEntity livingentity = CataclysmSpellCasterIllager.this.getTarget();
-			if (livingentity != null && livingentity.isAlive())
+			if(livingentity != null && livingentity.isAlive())
 			{
-				if (CataclysmSpellCasterIllager.this.isCastingSpell())
+				if(CataclysmSpellCasterIllager.this.isCastingSpell())
 				{
 					return false;
 				} 
@@ -196,7 +241,7 @@ public abstract class CataclysmSpellCasterIllager extends AbstractIllager
 			CataclysmSpellCasterIllager.this.spellCastingTickCount = this.getCastingTime();
 			this.nextAttackTickCount = CataclysmSpellCasterIllager.this.tickCount + this.getCastingInterval();
 			SoundEvent soundevent = this.getSpellPrepareSound();
-			if (soundevent != null) 
+			if(soundevent != null) 
 			{
 				CataclysmSpellCasterIllager.this.playSound(soundevent, 1.0F, 1.0F);
 			}
@@ -208,7 +253,7 @@ public abstract class CataclysmSpellCasterIllager extends AbstractIllager
 		public void tick() 
 		{
 			--this.attackWarmupDelay;
-			if (this.attackWarmupDelay == 0)
+			if(this.attackWarmupDelay == 0)
 			{
 				this.performSpellCasting();
 				CataclysmSpellCasterIllager.this.playSound(CataclysmSpellCasterIllager.this.getCastingSoundEvent(), 1.0F, 1.0F);

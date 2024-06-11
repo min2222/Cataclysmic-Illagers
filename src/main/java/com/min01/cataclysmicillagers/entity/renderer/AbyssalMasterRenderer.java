@@ -1,5 +1,6 @@
 package com.min01.cataclysmicillagers.entity.renderer;
 
+import com.min01.aes.AESUtil;
 import com.min01.cataclysmicillagers.CataclysmicIllagers;
 import com.min01.cataclysmicillagers.entity.leviathan.EntityAbyssalMaster;
 import com.min01.cataclysmicillagers.entity.model.ModelAbyssalMaster;
@@ -18,6 +19,6 @@ public class AbyssalMasterRenderer extends MobRenderer<EntityAbyssalMaster, Mode
 	@Override
 	public ResourceLocation getTextureLocation(EntityAbyssalMaster p_115812_)
 	{
-		return new ResourceLocation(CataclysmicIllagers.MODID, "textures/entity/abyssal_master.png");
+		return AESUtil.getTexture(new ResourceLocation(CataclysmicIllagers.MODID, "textures/entity/abyssal_master.png"));
 	}
 }
