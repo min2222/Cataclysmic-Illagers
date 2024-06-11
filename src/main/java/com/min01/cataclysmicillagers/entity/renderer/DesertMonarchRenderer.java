@@ -1,9 +1,9 @@
 package com.min01.cataclysmicillagers.entity.renderer;
 
-import com.min01.aes.AESUtil;
 import com.min01.cataclysmicillagers.CataclysmicIllagers;
 import com.min01.cataclysmicillagers.entity.model.ModelDesertMonarch;
 import com.min01.cataclysmicillagers.entity.remnant.EntityDesertMonarch;
+import com.min01.cataclysmicillagers.util.AESUtil;
 
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.entity.MobRenderer;
