@@ -3,10 +3,10 @@
 	"minVersion": "0.8",
 	"package": "com.min01.cataclysmicillagers.mixin",
 	"compatibilityLevel": "JAVA_17",
-	"mixins": [],
-	"client": [
-		"MixinSoundBufferLibrary"
+	"mixins": [
+		"MixinResource"
 	],
+	"client": [],
 	"server": [],
 	"injectors": {
 		"defaultRequire": 1

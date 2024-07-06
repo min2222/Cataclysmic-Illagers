@@ -3,7 +3,6 @@ package com.min01.cataclysmicillagers.entity.renderer;
 import com.min01.cataclysmicillagers.CataclysmicIllagers;
 import com.min01.cataclysmicillagers.entity.model.ModelDesertMonarch;
 import com.min01.cataclysmicillagers.entity.remnant.EntityDesertMonarch;
-import com.min01.cataclysmicillagers.util.AESUtil;
 
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -19,6 +18,6 @@ public class DesertMonarchRenderer extends MobRenderer<EntityDesertMonarch, Mode
 	@Override
 	public ResourceLocation getTextureLocation(EntityDesertMonarch p_115812_)
 	{
-		return AESUtil.getTexture(new ResourceLocation(CataclysmicIllagers.MODID, "textures/entity/desert_monarch.png"));
+		return new ResourceLocation(CataclysmicIllagers.MODID, "textures/entity/desert_monarch.png");
 	}
 }
