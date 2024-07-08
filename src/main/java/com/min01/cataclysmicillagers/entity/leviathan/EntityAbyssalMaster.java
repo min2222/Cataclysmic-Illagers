@@ -145,6 +145,7 @@ public class EntityAbyssalMaster extends CataclysmSpellCasterIllager
 			return 340;
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override
 		protected void performSpellCasting() 
 		{
@@ -239,7 +240,7 @@ public class EntityAbyssalMaster extends CataclysmSpellCasterIllager
 
 		private void createSpellEntity(double p_32673_, double p_32674_, double p_32675_, double p_32676_, float p_32677_, int p_32678_)
 		{
-			BlockPos blockpos = new BlockPos(p_32673_, p_32676_, p_32674_);
+			BlockPos blockpos = BlockPos.containing(p_32673_, p_32676_, p_32674_);
 			boolean flag = false;
 			double d0 = 0.0D;
 

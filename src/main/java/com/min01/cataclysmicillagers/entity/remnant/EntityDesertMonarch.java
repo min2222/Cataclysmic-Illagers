@@ -181,7 +181,7 @@ public class EntityDesertMonarch extends CataclysmSpellCasterIllager
 		
 		private void createSpellEntity(double posX, double posZ, double posY, float rotation, int delay)
 		{
-			BlockPos blockpos = new BlockPos(posX, posY, posZ);
+			BlockPos blockpos = BlockPos.containing(posX, posY, posZ);
             double d0 = 0.0D;
             do
             {

@@ -35,7 +35,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class AESUtil
 {
 	//https://www.baeldung.com/java-aes-encryption-decryption
-	
+
 	private static String generateRandomString()
 	{
 		return RandomStringUtils.random(16, true, true);

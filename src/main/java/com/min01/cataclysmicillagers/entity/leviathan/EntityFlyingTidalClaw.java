@@ -122,7 +122,7 @@ public class EntityFlyingTidalClaw extends AbstractOwnableMonster<EntityAbyssalM
 			this.move(MoverType.SELF, this.getDeltaMovement());
 			this.setDeltaMovement(this.getDeltaMovement().scale((double)0.5));
 		}
-		this.calculateEntityAnimation(this, false);
+		this.calculateEntityAnimation(false);
 	}
 	
 	@Override
@@ -285,11 +285,11 @@ public class EntityFlyingTidalClaw extends AbstractOwnableMonster<EntityAbyssalM
 				break;
 			case LASER:
 			    float dir = 90.0F;
-				EntityMiniAbyssBlast beam = new EntityMiniAbyssBlast(IllagerEntities.MINI_ABYSS_BLAST.get(), this.mob.level, this.mob, this.mob.getX(), this.mob.getEyeY() - 0.25, this.mob.getZ(), (float)((this.mob.yHeadRot + dir) * Math.PI / 180.0D), (float)(-this.mob.getXRot() * Math.PI / 180.0D), 80, dir);
+			    EntityMiniAbyssBlast beam = new EntityMiniAbyssBlast(IllagerEntities.MINI_ABYSS_BLAST.get(), this.mob.level, this.mob, this.mob.getX(), this.mob.getEyeY() - 0.25, this.mob.getZ(), (float)((this.mob.yHeadRot + dir) * Math.PI / 180.0D), (float)(-this.mob.getXRot() * Math.PI / 180.0D), 80, dir);
 				this.mob.level.addFreshEntity(beam);
 				break;
 			case TENTACLE:
-		        EntityTidalTentacle segment = IllagerEntities.TIDAL_TENTACLE.get().create(this.mob.level);
+				EntityTidalTentacle segment = IllagerEntities.TIDAL_TENTACLE.get().create(this.mob.level);
 		        segment.moveTo(this.mob.getX(), this.mob.getEyeY() - 0.25, this.mob.getZ(), this.mob.getYRot(), this.mob.getXRot());
 		        this.mob.level.addFreshEntity(segment);
 		        segment.setCreatorEntityUUID(this.mob.getUUID());

@@ -18,6 +18,6 @@ public class IllagerSounds
 	
 	private static RegistryObject<SoundEvent> registerSound(String name) 
 	{
-		return SOUNDS.register(name, () -> new SoundEvent(new ResourceLocation(CataclysmicIllagers.MODID, name)));
+		return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(CataclysmicIllagers.MODID, name)));
     }
 }
