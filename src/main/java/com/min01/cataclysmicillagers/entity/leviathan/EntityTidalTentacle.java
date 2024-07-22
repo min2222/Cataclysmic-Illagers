@@ -18,18 +18,17 @@ public class EntityTidalTentacle extends Tidal_Tentacle_Entity
 	public void tick() 
 	{
 		super.tick();
-		if(this.getCreatorEntity() != null)
+		if(this.getCreatorEntity() != null && this.getFromEntity() != null)
 		{
 			Entity entity = this.getCreatorEntity();
 			if(entity instanceof EntityFlyingTidalClaw claw)
 			{
-				if(!claw.isAlive())
+				if(!claw.level.isClientSide)
 				{
-					this.discard();
-				}
-				if(!claw.level.isClientSide && claw.getTarget() == null)
-				{
-					this.discard();
+					if(claw.getTarget() == null)
+					{
+						this.discard();
+					}
 				}
 			}
 		}

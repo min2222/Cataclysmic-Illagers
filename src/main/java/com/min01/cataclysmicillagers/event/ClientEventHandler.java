@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.Mod;
 public class ClientEventHandler 
 {
     @SubscribeEvent
-    public static void entityRenderers(EntityRenderersEvent.RegisterRenderers event)
+    public static void onRegisterEntityRenderers(EntityRenderersEvent.RegisterRenderers event)
     {
     	event.registerEntityRenderer(IllagerEntities.ABYSSAL_MASTER.get(), AbyssalMasterRenderer::new);
     	event.registerEntityRenderer(IllagerEntities.FLYING_TIDAL_CLAW.get(), FlyingTidalClawRenderer::new);
@@ -32,7 +32,7 @@ public class ClientEventHandler
     }
     
     @SubscribeEvent
-    public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event)
+    public static void onRegisterLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event)
     {
     	event.registerLayerDefinition(ModelAbyssalMaster.LAYER_LOCATION, ModelAbyssalMaster::createBodyLayer);
     	event.registerLayerDefinition(ModelDesertMonarch.LAYER_LOCATION, ModelDesertMonarch::createBodyLayer);

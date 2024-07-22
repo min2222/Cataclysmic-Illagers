@@ -1,13 +1,12 @@
 package com.min01.cataclysmicillagers.util;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.UUID;
 
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.entity.TransientEntitySectionManager;
+import net.minecraft.world.level.entity.LevelEntityGetter;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 public class IllagerUtil 
@@ -20,14 +19,15 @@ public class IllagerUtil
 	@SuppressWarnings("unchecked")
 	public static <T extends Entity> T getEntityByUUID(Level level, UUID uuid)
 	{
-		if(level instanceof ServerLevel serverLevel)
+		Method m = ObfuscationReflectionHelper.findMethod(Level.class, "m_142646_");
+		try 
 		{
-			return (T) serverLevel.getEntity(uuid);
+			LevelEntityGetter<Entity> entities = (LevelEntityGetter<Entity>) m.invoke(level);
+			return (T) entities.get(uuid);
 		}
-		else if(level instanceof ClientLevel clientLevel)
+		catch (Exception e) 
 		{
-			TransientEntitySectionManager<Entity> entityStorage = ObfuscationReflectionHelper.getPrivateValue(ClientLevel.class, clientLevel, "f_171631_");
-			return (T) entityStorage.getEntityGetter().get(uuid);
+			e.printStackTrace();
 		}
 		return null;
 	}
