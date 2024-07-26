@@ -31,7 +31,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class AESUtil
 {
 	//https://www.baeldung.com/java-aes-encryption-decryption
@@ -73,6 +72,7 @@ public class AESUtil
 	    return decryptFile(algorithm, key, ivParameterSpec, array);
 	}
 	
+	@OnlyIn(Dist.CLIENT)
 	public static void encryptFiles(String fileExtension) throws NoSuchAlgorithmException, IOException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException, InvalidKeySpecException
 	{
 	    String algorithm = "AES/CBC/PKCS5Padding";
@@ -98,6 +98,7 @@ public class AESUtil
 	    }
 	}
 	
+	@OnlyIn(Dist.CLIENT)
 	private static File makeDirectory(String folderName)
 	{
 		Minecraft mc = Minecraft.getInstance();
